@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>교육자료실</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<style>
+  :root{--bg:#f7f4ee;--card:#fffdf9;--ink:#1f2a24;--muted:#6f766f;--line:#e6e0d4;--green:#3f5f4b;--green2:#5c7d67;--accent:#c4784a;--danger:#b4483a}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+  header.top{display:flex;justify-content:space-between;align-items:center;padding:18px 0;border-bottom:1px solid var(--line)}
+  .logo{font-weight:800;color:var(--green);letter-spacing:-.02em}
+  button,.btn{font:inherit;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:8px 14px;border-radius:999px;cursor:pointer}
+  .btn-primary{background:var(--green);color:#fff;border-color:var(--green)}
+  .btn-danger{color:var(--danger);border-color:#e7c6c0}
+  .hero{display:grid;grid-template-columns:1.2fr 1fr;gap:32px;align-items:center;padding:56px 0}
+  .eyebrow{font-size:12px;letter-spacing:.14em;color:var(--accent);font-weight:700;text-transform:uppercase}
+  h1{font-size:clamp(30px,5vw,46px);line-height:1.2;margin:10px 0 14px;letter-spacing:-.03em}
+  h1 em{font-style:normal;color:var(--green2)}
+  .hero p{color:var(--muted);margin:0 0 22px}
+  .art{aspect-ratio:4/3;border-radius:40% 40% 24px 24px;background:#ebe5d9;position:relative;overflow:hidden}
+  .art .sun{position:absolute;width:42%;aspect-ratio:1;border-radius:50%;background:#e8cfae;right:12%;top:12%}
+  .art .card{position:absolute;left:18%;bottom:16%;width:46%;height:24%;background:var(--green2);border-radius:10px;transform:rotate(-4deg)}
+  .art .card2{position:absolute;left:24%;bottom:12%;width:46%;height:22%;background:#fbf6ee;border-radius:10px;box-shadow:0 6px 18px #0001;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--muted)}
+  section.lib{padding:24px 0 72px;border-top:1px solid var(--line)}
+  .lib-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap}
+  h2{margin:6px 0 4px;font-size:26px;letter-spacing:-.02em}
+  .count b{font-size:28px;color:var(--green)}
+  .toolbar{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:20px 0}
+  .chips{display:flex;gap:6px;flex-wrap:wrap}
+  .chip{padding:6px 12px;font-size:14px}
+  .chip.on{background:var(--green);color:#fff;border-color:var(--green)}
+  input,textarea,select{font:inherit;border:1px solid var(--line);background:var(--card);border-radius:12px;padding:9px 12px;width:100%;color:var(--ink)}
+  .search{max-width:260px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+  .item{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:8px}
+  .item .cat{font-size:12px;color:var(--accent);font-weight:700}
+  .item h3{margin:0;font-size:17px}
+  .item p{margin:0;color:var(--muted);font-size:14px;flex:1}
+  .item .row{display:flex;gap:6px;flex-wrap:wrap}
+  .empty{padding:40px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:16px}
+  dialog{border:none;border-radius:18px;padding:24px;width:min(440px,92vw);background:var(--card);color:var(--ink)}
+  dialog::backdrop{background:#0005}
+  dialog form{display:flex;flex-direction:column;gap:10px}
+  dialog .actions{display:flex;justify-content:flex-end;gap:8px;margin-top:6px}
+  .msg{font-size:13px;color:var(--danger);min-height:1em}
+  .admin-bar{display:none;gap:8px;align-items:center}
+  body.is-admin .admin-bar{display:flex}
+  .admin-only{display:none}
+  body.is-admin .admin-only{display:inline-block}
+  @media (max-width:720px){.hero{grid-template-columns:1fr;padding:32px 0}.art{display:none}.search{max-width:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="logo">교육자료실</div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <span id="who" style="font-size:13px;color:var(--muted)"></span>
+      <button id="loginBtn">관리자 로그인</button>
+      <button id="logoutBtn" style="display:none">로그아웃</button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div>
+      <div class="eyebrow">● Learn something new</div>
+      <h1>배움이 필요한 순간,<br><em>여기서 시작해요.</em></h1>
+      <p>성장에 도움이 되는 교육 자료를 한곳에 모았어요.<br>지금 필요한 자료를 찾아보세요.</p>
+      <a class="btn btn-primary" href="#library">자료 둘러보기 ↓</a>
+    </div>
+    <div class="art" aria-hidden="true"><div class="sun"></div><div class="card"></div><div class="card2">좋은 배움은 오래 남는다</div></div>
+  </section>
+
+  <section class="lib" id="library">
+    <div class="lib-head">
+      <div>
+        <div class="eyebrow">Your learning library</div>
+        <h2>필요한 자료를 찾아보세요.</h2>
+        <div style="color:var(--muted);font-size:14px">엄선한 자료로 더 나은 내일을 준비해요.</div>
+      </div>
+      <div class="count"><b id="count">00</b> 개의 자료</div>
+    </div>
+    <div class="toolbar">
+      <div class="chips" id="chips"></div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <div class="admin-bar"><button class="btn-primary" id="addBtn">+ 자료 등록</button></div>
+        <input class="search" id="q" placeholder="자료 검색하기">
+      </div>
+    </div>
+    <div class="grid" id="grid"></div>
+  </section>
+</div>
+
+<dialog id="loginDlg">
+  <form id="loginForm">
+    <h3 style="margin:0 0 4px">관리자 로그인</h3>
+    <input type="email" id="email" placeholder="이메일" required autocomplete="username">
+    <input type="password" id="pw" placeholder="비밀번호" required autocomplete="current-password">
+    <div class="msg" id="loginMsg"></div>
+    <div class="actions"><button type="button" data-close>취소</button><button class="btn-primary">로그인</button></div>
+  </form>
+</dialog>
+
+<dialog id="editDlg">
+  <form id="editForm">
+    <h3 style="margin:0 0 4px" id="editTitle">자료 등록</h3>
+    <input id="f_title" placeholder="제목" required>
+    <input id="f_category" placeholder="분류 (예: 온보딩, 필수 교육)" list="catList" required>
+    <datalist id="catList"></datalist>
+    <textarea id="f_desc" rows="3" placeholder="설명"></textarea>
+    <input id="f_url" type="url" placeholder="링크 (선택)">
+    <div class="msg" id="editMsg"></div>
+    <div class="actions"><button type="button" data-close>취소</button><button class="btn-primary">저장</button></div>
+  </form>
+</dialog>
+
+<script src="config.js"></script>
+<script type="module">
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/+esm";
+const sb = createClient(window.SUPABASE_URL, window.SUPABASE_KEY);
+const $ = s => document.querySelector(s);
+let items = [], cat = "전체 자료", isAdmin = false, editingId = null;
+
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+async function load(){
+  const { data, error } = await sb.from("materials").select("*").order("created_at",{ascending:false});
+  if (error){ $("#grid").innerHTML = `<div class="empty">자료를 불러오지 못했습니다: ${esc(error.message)}</div>`; return; }
+  items = data; render();
+}
+
+function render(){
+  const cats = ["전체 자료", ...new Set(items.map(i=>i.category))];
+  $("#chips").innerHTML = cats.map(c=>`<button class="chip ${c===cat?"on":""}" data-cat="${esc(c)}">${esc(c)}</button>`).join("");
+  $("#catList").innerHTML = cats.slice(1).map(c=>`<option value="${esc(c)}">`).join("");
+  const q = $("#q").value.trim().toLowerCase();
+  const list = items.filter(i => (cat==="전체 자료"||i.category===cat) && (!q || (i.title+" "+(i.description||"")).toLowerCase().includes(q)));
+  $("#count").textContent = String(list.length).padStart(2,"0");
+  $("#grid").innerHTML = list.length ? list.map(i=>`
+    <article class="item">
+      <div class="cat">${esc(i.category)}</div>
+      <h3>${esc(i.title)}</h3>
+      <p>${esc(i.description)}</p>
+      <div class="row">
+        ${i.url?`<a class="btn" href="${esc(i.url)}" target="_blank" rel="noopener">열기 ↗</a>`:""}
+        <button class="admin-only" data-edit="${i.id}">수정</button>
+        <button class="admin-only btn-danger" data-del="${i.id}">삭제</button>
+      </div>
+    </article>`).join("") : `<div class="empty">표시할 자료가 없습니다.</div>`;
+}
+
+async function refreshAuth(){
+  const { data:{ session } } = await sb.auth.getSession();
+  isAdmin = false;
+  if (session){
+    const { data } = await sb.from("materials_admins").select("user_id").eq("user_id", session.user.id).maybeSingle();
+    isAdmin = !!data;
+  }
+  document.body.classList.toggle("is-admin", isAdmin);
+  $("#loginBtn").style.display = session ? "none" : "";
+  $("#logoutBtn").style.display = session ? "" : "none";
+  $("#who").textContent = session ? (isAdmin ? "관리자: " : "권한 없음: ") + session.user.email : "";
+}
+
+document.addEventListener("click", async e => {
+  const t = e.target;
+  if (t.dataset.cat){ cat = t.dataset.cat; render(); }
+  if (t.hasAttribute("data-close")) t.closest("dialog").close();
+  if (t.dataset.edit){ openEdit(items.find(i=>i.id==t.dataset.edit)); }
+  if (t.dataset.del){
+    if (!confirm("이 자료를 삭제할까요?")) return;
+    const { error } = await sb.from("materials").delete().eq("id", t.dataset.del);
+    if (error) alert("삭제 실패: "+error.message); else load();
+  }
+});
+$("#q").addEventListener("input", render);
+$("#loginBtn").onclick = () => { $("#loginMsg").textContent=""; $("#loginDlg").showModal(); };
+$("#logoutBtn").onclick = async () => { await sb.auth.signOut(); refreshAuth(); };
+$("#addBtn").onclick = () => openEdit(null);
+
+$("#loginForm").onsubmit = async e => {
+  e.preventDefault();
+  const { error } = await sb.auth.signInWithPassword({ email: $("#email").value, password: $("#pw").value });
+  if (error){ $("#loginMsg").textContent = "로그인 실패: " + error.message; return; }
+  $("#loginDlg").close(); await refreshAuth();
+  if (!isAdmin) alert("로그인은 됐지만 관리자 권한이 없는 계정입니다.");
+};
+
+function openEdit(item){
+  editingId = item?.id ?? null;
+  $("#editTitle").textContent = item ? "자료 수정" : "자료 등록";
+  $("#f_title").value = item?.title ?? "";
+  $("#f_category").value = item?.category ?? "";
+  $("#f_desc").value = item?.description ?? "";
+  $("#f_url").value = item?.url ?? "";
+  $("#editMsg").textContent = "";
+  $("#editDlg").showModal();
+}
+$("#editForm").onsubmit = async e => {
+  e.preventDefault();
+  const row = { title:$("#f_title").value.trim(), category:$("#f_category").value.trim(), description:$("#f_desc").value.trim()||null, url:$("#f_url").value.trim()||null };
+  const { error } = editingId ? await sb.from("materials").update(row).eq("id", editingId) : await sb.from("materials").insert(row);
+  if (error){ $("#editMsg").textContent = "저장 실패: " + error.message; return; }
+  $("#editDlg").close(); load();
+};
+
+sb.auth.onAuthStateChange(() => refreshAuth());
+refreshAuth(); load();
+</script>
+</body>
+</html>
